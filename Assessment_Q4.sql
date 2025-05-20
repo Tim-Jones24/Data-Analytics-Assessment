@@ -1,13 +1,13 @@
 with clv as (
 	select u.id as customer_id,
 		   concat(u.first_name,' ', u.last_name) as name,
-		   timestampdiff(month, u.date_joined,s.transaction_date) as tenure,
+		   timestampdiff(month, u.date_joined,current_date()) as tenure,
 		   count(*) as total_transactions
     from users_customuser u
     inner join savings_savingsaccount s
     on u.id=s.owner_id
 	Group by u.id, concat(u.first_name,' ', u.last_name),
-             timestampdiff(month, u.date_joined,s.transaction_date)
+             timestampdiff(month, u.date_joined,current_date())
 )
 select customer_id,name,
        tenure as tenure_month,total_transactions,
